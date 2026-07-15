@@ -1,52 +1,47 @@
-# SnapBuy (E-Commerce)
+# SnapBuy
 
-SnapBuy is a full-stack e-commerce application.
+SnapBuy is a full-stack e-commerce application built with a Spring Boot backend and an Angular frontend.
 
-- **Backend:** Spring Boot (Java 17) with Spring Security + JWT, REST APIs, JPA/Hibernate, MySQL, and email notifications.
-- **Frontend:** Angular 17 single-page application.
+## Features
+- User authentication and authorization using JWT
+- Product browsing, search, deals, and categories
+- Cart, wishlist, checkout, orders, and profile management
+- Admin tools for products, users, and orders
 
-## Repo Structure
+## Project structure
+- snapbuy/ecommerce-backend: Spring Boot REST API
+- snapbuy/ecommerce-frontend: Angular single-page application
 
-- `snapbuy/ecommerce-backend/` - Spring Boot backend
-- `snapbuy/ecommerce-frontend/` - Angular frontend
-
-## Backend
-
-### Requirements
-
+## Local development
+### Backend
 - Java 17+
-- MySQL running (or configure another DB)
+- Maven
+- Run from the backend folder:
+  - mvn spring-boot:run
 
-### Configure DB
-Edit `snapbuy/ecommerce-backend/src/main/resources/application.properties`:
-
-- `spring.datasource.url`
-- `spring.datasource.username`
-- `spring.datasource.password`
-
-### Run
-From `snapbuy/ecommerce-backend`:
-
-- `mvn spring-boot:run`
-
-Backend runs on: `http://localhost:8080`
-
-## Frontend
-
-### Requirements
-
+### Frontend
 - Node.js 18+
+- Run from the frontend folder:
+  - npm install
+  - npm start
 
-### Run
-From `snapbuy/ecommerce-frontend`:
+## Deployment
+### Docker
+Build and run the backend container:
+- docker build -t snapbuy-backend .
+- docker run -p 8080:8080 --env-file .env snapbuy-backend
 
-- `npm install`
-- `npm start`
+### Frontend hosting
+The frontend is ready for Vercel or Netlify. Update the production API URL in:
+- snapbuy/ecommerce-frontend/src/environments/environment.prod.ts
 
-Frontend runs on: `http://localhost:4200`
-
-## Notes
-
-- JWT auth is implemented.
-- Seed data exists via `DataSeeder` (roles, demo users, categories, products).
+### Backend environment variables
+Set these in your deployment environment:
+- DB_URL
+- DB_USERNAME
+- DB_PASSWORD
+- JWT_SECRET
+- MAIL_USERNAME
+- MAIL_PASSWORD
+- SEED_DATA=false
 

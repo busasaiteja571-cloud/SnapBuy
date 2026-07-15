@@ -31,6 +31,10 @@ public class JwtResponse {
         return token;
     }
 
+    public String getAccessTokenValue() {
+        return token;
+    }
+
     public void setAccessToken(String accessToken) {
         this.token = accessToken;
     }

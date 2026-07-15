@@ -49,7 +49,8 @@ public class OrderService {
         List<OrderItem> orderItems = new ArrayList<>();
         for (CartItem cartItem : cartItems) {
             Product product = cartItem.getProduct();
-            if (product.getStockQuantity() < cartItem.getQuantity()) {
+            Integer stock = product.getStockQuantity();
+            if (stock == null || stock < cartItem.getQuantity()) {
                 throw new RuntimeException("Insufficient stock for product: " + product.getName());
             }
 
@@ -101,7 +102,7 @@ public class OrderService {
         Order order = getOrderById(orderId);
         
         // Allowed statuses: PENDING, SHIPPED, DELIVERED, CANCELLED
-        String cleanStatus = status.toUpperCase();
+        String cleanStatus = status == null ? "" : status.toUpperCase();
         if (!cleanStatus.equals("PENDING") && !cleanStatus.equals("SHIPPED") && 
             !cleanStatus.equals("DELIVERED") && !cleanStatus.equals("CANCELLED")) {
             throw new RuntimeException("Invalid order status: " + status);
@@ -113,7 +114,7 @@ public class OrderService {
 
     public Order updatePaymentStatus(Long orderId, String status) {
         Order order = getOrderById(orderId);
-        String cleanStatus = status.toUpperCase();
+        String cleanStatus = status == null ? "" : status.toUpperCase();
         if (!cleanStatus.equals("PENDING") && !cleanStatus.equals("PAID") && !cleanStatus.equals("FAILED") && !cleanStatus.equals("REFUNDED")) {
             throw new RuntimeException("Invalid payment status: " + status);
         }
