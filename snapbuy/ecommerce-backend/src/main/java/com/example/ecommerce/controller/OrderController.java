@@ -29,6 +29,9 @@ public class OrderController {
 
     private User getAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() || "anonymousUser".equals(authentication.getPrincipal())) {
+            throw new RuntimeException("Authentication required");
+        }
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         return userRepository.findById(userDetails.getId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -56,8 +59,8 @@ public class OrderController {
             User user = getAuthenticatedUser();
             boolean isAdmin = user.getRoles().stream()
                     .anyMatch(role -> role.getName().name().equals("ROLE_ADMIN"));
-            
-            if (isAdmin || order.getUser().getId().equals(user.getId())) {
+
+            if (isAdmin || (order.getUser() != null && order.getUser().getId().equals(user.getId()))) {
                 return ResponseEntity.ok(order);
             }
             return ResponseEntity.status(403).build();

@@ -32,9 +32,9 @@ import { ToastService } from './toast.service';
 
     <section class="grid">
       <article class="product-card" *ngFor="let product of filtered">
-        <a [routerLink]="['/products', product.id]"><img [src]="product.imageUrl" [alt]="product.name"></a>
+        <a [routerLink]="['/products', product.id]"><img [src]="product.imageUrl || 'https://via.placeholder.com/300x200?text=SnapBuy'" [alt]="product.name"></a>
         <div class="product-body">
-          <span class="tag">{{ product.category.name }}</span>
+          <span class="tag">{{ product.category.name || 'General' }}</span>
           <h3>{{ product.name }}</h3>
           <p>{{ product.description }}</p>
           <div class="row-line">
@@ -144,21 +144,18 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.api.categories().subscribe((categories) => this.categories = categories);
-    
-    // This stream fires EVERY TIME goToProducts() is clicked because 'refresh' is always a new number!
+
     this.route.queryParamMap.subscribe((params) => {
       this.query = params.get('q') || '';
-      
-      // Fetch the full product listing from your backend server safely
       this.api.products().subscribe((products) => {
-        this.products = products;
-        
-        // Clear category dropdown values if it's a pure navbar reset click
+        this.products = Array.isArray(products) ? products : [];
+        this.masterProductCatalog = [...this.products];
+
         if (!this.query) {
           this.categoryId = '';
           this.sort = 'name';
         }
-        
+
         this.applyFilters();
       });
     });
@@ -191,18 +188,21 @@ export class HomeComponent implements OnInit {
   }
 
   applyFilters(): void {
-    const term = this.query.toLowerCase().trim();
-    this.filtered = this.products
-      .filter((product) => !term || product.name.toLowerCase().includes(term) || product.description.toLowerCase().includes(term))
-      .filter((product) => !this.categoryId || product.category.id === Number(this.categoryId))
-      .sort((a, b) => this.sort === 'low' ? a.price - b.price : this.sort === 'high' ? b.price - a.price : a.name.localeCompare(b.name));
+    const term = (this.query || '').toLowerCase().trim();
+    this.filtered = (this.products || [])
+      .filter((product) => !term || (product.name || '').toLowerCase().includes(term) || (product.description || '').toLowerCase().includes(term))
+      .filter((product) => !this.categoryId || (product.category?.id ?? 0) === Number(this.categoryId))
+      .sort((a, b) => {
+        if (this.sort === 'low') return a.price - b.price;
+        if (this.sort === 'high') return b.price - a.price;
+        return (a.name || '').localeCompare(b.name || '');
+      });
   }
 
   loadDeals(): void {
     this.api.deals().subscribe((products) => {
-      this.products = products;
-      // Temporarily clear inputs so deal results are shown transparently
-      this._categoryId = ''; 
+      this.products = Array.isArray(products) ? products : [];
+      this._categoryId = '';
       this.query = '';
       this.applyFilters();
       window.setTimeout(() => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
