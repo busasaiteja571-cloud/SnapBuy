@@ -1,0 +1,6 @@
+ecommerce-frontend/node_modules/
+ecommerce-frontend/.angular/
+target/
+dist/
+*.log
+*.jar

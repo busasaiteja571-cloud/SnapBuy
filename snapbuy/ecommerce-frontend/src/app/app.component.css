@@ -1,0 +1,164 @@
+* {
+  font-family: Calibri, Arial, sans-serif;
+}
+
+:host {
+  color: #172033;
+  display: block;
+}
+
+.site-header {
+  align-items: center;
+  background: #ffffff;
+  border-bottom: 1px solid #e3e8ef;
+  display: flex;
+  gap: 22px;
+  justify-content: space-between;
+  padding: 14px clamp(16px, 5vw, 72px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.header-search {
+  align-items: center;
+  background: #f5f7fa;
+  border: 1px solid #dfe6ef;
+  border-radius: 8px;
+  display: flex;
+  flex: 1 1 260px;
+  gap: 9px;
+  max-width: 460px;
+  min-height: 42px;
+  padding: 0 12px;
+}
+
+.header-search input {
+  background: transparent;
+  border: 0;
+  flex: 1;
+  min-height: 38px;
+  min-width: 0;
+  outline: 0;
+  padding: 0;
+}
+
+.brand {
+  align-items: center;
+  color: #172033;
+  display: inline-flex;
+  font-size: 1.35rem;
+  font-weight: 850;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.brand span {
+  align-items: center;
+  background: #0f766e;
+  border-radius: 8px;
+  color: #ffffff;
+  display: inline-flex;
+  height: 40px;
+  justify-content: center;
+  width: 40px;
+}
+
+nav {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+nav a,
+nav button {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: #344055;
+  font-weight: 750;
+  padding: 8px 10px;
+  text-decoration: none;
+}
+
+nav a:hover,
+nav button:hover {
+  background: #f1f5f9;
+}
+
+.page {
+  min-height: calc(100vh - 236px);
+  padding: clamp(18px, 4vw, 44px) clamp(14px, 5vw, 72px);
+}
+
+.toast-stack {
+  display: grid;
+  gap: 10px;
+  position: fixed;
+  right: 18px;
+  top: 82px;
+  width: min(360px, calc(100vw - 36px));
+  z-index: 40;
+}
+
+.toast-message {
+  background: #0f766e;
+  border: 0;
+  border-radius: 8px;
+  box-shadow: 0 14px 32px rgba(23, 32, 51, 0.16);
+  color: #ffffff;
+  font-weight: 800;
+  padding: 13px 15px;
+  text-align: left;
+}
+
+.toast-message.error {
+  background: #b42318;
+}
+
+.toast-message.info {
+  background: #344055;
+}
+
+.footer {
+  background: #172033;
+  color: #e7edf5;
+  display: grid;
+  gap: 14px;
+  padding: 28px clamp(16px, 5vw, 72px);
+  text-align: center;
+}
+
+.footer p {
+  color: #b9c4d3;
+  margin: 6px 0 0;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+}
+
+.footer a {
+  color: #e7edf5;
+}
+
+@media (max-width: 760px) {
+  .site-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .header-search {
+    max-width: none;
+    width: 100%;
+  }
+
+  nav {
+    justify-content: flex-start;
+  }
+}

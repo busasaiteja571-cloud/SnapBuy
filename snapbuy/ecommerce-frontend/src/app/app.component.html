@@ -1,0 +1,48 @@
+<header class="site-header">
+  <a class="brand" routerLink="/">
+    <span><i class="bi bi-shop"></i></span>
+    SnapBuy
+  </a>
+  <form class="header-search" (ngSubmit)="searchProducts()">
+    <i class="bi bi-search"></i>
+    <input [(ngModel)]="searchTerm" name="globalSearch" placeholder="Search products">
+  </form>
+  <nav>
+    <button type="button" (click)="goToProducts()">Products</button>
+    <a routerLink="/cart" *ngIf="auth.isCustomer()">Cart</a>
+    <a routerLink="/wishlist" *ngIf="auth.isCustomer()">Wishlist</a>
+    <a routerLink="/orders" *ngIf="auth.isCustomer()">Orders</a>
+    <a routerLink="/profile" *ngIf="auth.isCustomer()"><i class="bi bi-person-circle"></i></a>
+    <a routerLink="/admin" *ngIf="auth.isAdmin()">Admin</a>
+    <a routerLink="/login" *ngIf="!auth.isLoggedIn()">Login</a>
+    <button type="button" *ngIf="auth.isLoggedIn()" (click)="logout()">Logout</button>
+  </nav>
+</header>
+
+<div class="toast-stack" aria-live="polite">
+  <button
+    *ngFor="let message of toast.messages$ | async"
+    class="toast-message"
+    [class.error]="message.type === 'error'"
+    [class.info]="message.type === 'info'"
+    type="button"
+    (click)="toast.remove(message.id)">
+    {{ message.text }}
+  </button>
+</div>
+
+<main class="page">
+  <router-outlet></router-outlet>
+</main>
+
+<footer class="footer">
+  <div>
+    <strong>© 2026 SnapBuy. All rights reserved.</strong>
+    <p>Built with ❤️ for better shopping.</p>
+  </div>
+  <div class="footer-links">
+    <a href="mailto:snapbuy1111@gmail.com">Email Us</a>
+    <a routerLink="/privacy">Privacy Policy</a>
+    <a routerLink="/terms">Terms</a>
+  </div>
+</footer>
