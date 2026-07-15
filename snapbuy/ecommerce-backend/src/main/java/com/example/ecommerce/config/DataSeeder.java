@@ -6,6 +6,7 @@ import com.example.ecommerce.repository.ProductRepository;
 import com.example.ecommerce.repository.RoleRepository;
 import com.example.ecommerce.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -30,8 +31,14 @@ public class DataSeeder implements CommandLineRunner {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Value("${app.seed-data:false}")
+    private boolean seedData;
+
     @Override
     public void run(String... args) throws Exception {
+        if (!seedData) {
+            return;
+        }
         // 1. Seed Roles
         if (roleRepository.count() == 0) {
             roleRepository.save(new Role(ERole.ROLE_CUSTOMER));

@@ -1,0 +1,7 @@
+{
+  "root": "dist/ecommerce-frontend",
+  "clean_urls": true,
+  "routes": {
+    "/**": "index.html"
+  }
+}
